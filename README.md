@@ -1,0 +1,2 @@
+# sampleProj
+Angular structure
