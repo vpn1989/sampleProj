@@ -1,0 +1,38 @@
+{
+  "/blueprint/assets/*": {
+    "target": "http://localhost:4500/",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/blueprint": ""
+    },
+    "changeOrigin": true
+  },
+  "/api/*": {
+    "target": "http://localhost:8086/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/iapp-ui-styles/*": {
+    "target": "http://192.168.37.74/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
+  "/iapp-generics/*": {
+    "target": "http://192.168.37.74:8071/",
+    "secure": false,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/iapp-generics": ""
+    },
+    "changeOrigin": true
+  },
+  "/IndustryAppFe/*": {
+    "target": "http://192.168.37.74/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}
