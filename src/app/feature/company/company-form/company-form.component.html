@@ -1,0 +1,222 @@
+<app-loading [showLoading]="showLoader"></app-loading>
+<div class="px-3">
+  <form [formGroup]="EditForm" (ngSubmit)="onSubmit()" class="mt-3">
+    <div class="col">
+      <div class="row">
+        <div class="col-12 col-md-6">
+
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyCode">
+              {{ "company.edit.company_code" | translate }}</label>
+            <input formControlName="companyCode" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyCode" required placeholder="{{
+                    'company.edit.company_code_placeholder' | translate
+                  }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.companyCode.errors }" />
+            <div *ngIf="submitted && f.companyCode.errors" class="invalid-feedback">
+              <div *ngIf="f.companyCode.errors.required">
+                {{ "company.edit.company_code_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyName">
+              {{ "company.edit.company_name" | translate }}</label>
+            <input formControlName="companyName" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyName" required placeholder="{{
+                                    'company.edit.company_name_placeholder' | translate
+                                  }}" required autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.companyName.errors }" />
+            <div *ngIf="submitted && f.companyName.errors" class="invalid-feedback">
+              <div *ngIf="f.companyCode.errors.required">
+                {{ "company.edit.company_name_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyPhoneNumber">
+              {{ "company.edit.company_phone_number" | translate }}</label>
+            <input formControlName="companyPhoneNumber" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyPhoneNumber" required autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.companyPhoneNumber.errors }" required placeholder="{{
+                                                                  'company.edit.company_phone_number_placeholder' | translate
+                                                                }}" />
+            <div *ngIf="submitted && f.companyPhoneNumber.errors" class="invalid-feedback">
+              <div *ngIf="f.companyPhoneNumber.errors.required">
+                {{ "company.edit.company_phone_number_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyEmail">
+              {{ "company.edit.company_email" | translate }}</label>
+            <input formControlName="companyEmail" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyEmail" required autofocus [ngClass]="{ 'is-invalid': submitted && f.companyEmail.errors }"
+              required placeholder="{{
+                        'company.edit.company_email_placeholder' | translate
+                      }}" />
+            <div *ngIf="submitted && f.companyEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.companyEmail.errors.required">
+                {{ "company.edit.company_email_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyWebAddress">
+              {{ "company.edit.company_website_address" | translate }}</label>
+            <input formControlName="companyWebAddress" type="text" class="form-control mb-3 bg-light  rounded" required
+              placeholder="{{
+                'company.edit.company_website_placeholder' | translate
+              }}" id="companyWebAddress" />
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyDomainName">
+              {{ "company.edit.company_domain_name" | translate }}</label>
+            <input formControlName="companyDomainName" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyDomainName" required autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.companyDomainName.errors }" required placeholder="{{
+                      'company.edit.company_domain_name_placeholder' | translate
+                    }}" />
+            <div *ngIf="submitted && f.companyDomainName.errors" class="invalid-feedback">
+              <div *ngIf="f.companyEmail.errors.required">
+                {{ "company.edit.company_domain_name_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold" for="companyAddress">{{
+                    "company.edit.company_address" | translate
+                  }}</label>
+            <textarea formControlName="companyAddress" class="form-control mb-3 bg-light  rounded" id="companyAddress"
+              placeholder="{{ 'company.edit.company_address' | translate }}" rows="5"></textarea>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div *ngIf="!companyEditing"  class="form-group">
+            <label class="font-weight-bold" for="companyCorporateDetails">
+              {{ "company.edit.company_corporate_user_name" | translate }}</label>
+            <input formControlName="companyCorporateUserName" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyCorporateUserName" required autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.companyCorporateUserName.errors }" required placeholder="{{
+                        'company.edit.company_corporate_user_name_placeholder' | translate
+                      }}" />
+            <div *ngIf="submitted && f.companyCorporateUserName.errors" class="invalid-feedback">
+              <div *ngIf="f.companyCorporateUserName.errors.required">
+                {{ "company.edit.company_corporate_user_name_required" | translate }}
+              </div>
+            </div>
+          </div>
+          
+          <div *ngIf="!companyEditing"  class="form-group pt">
+            <label class="font-weight-bold" for="companyCorporateDetails">
+              {{ "company.edit.company_corporate_user_password" | translate }}</label>
+            <input formControlName="companyCorporatePassword" type="text" class="form-control mb-3 bg-light  rounded"
+              id="companyCorporatePassword" required autofocus
+              [ngClass]="{ 'is-invalid': submitted && f.companyCorporatePassword.errors }" required placeholder="{{
+                        'company.edit.company_corporate_user_password_placeholder' | translate
+                      }}" />
+            <div *ngIf="submitted && f.companyCorporatePassword.errors" class="invalid-feedback">
+              <div *ngIf="f.companyCorporatePassword.errors.required">
+                {{ "company.edit.company_corporate_user_password_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="font-weight-bold"
+              for="companyDBTypeOptions">{{ "company.edit.company_option_DB-options" | translate }}</label>
+            <select formControlName="companyDBTypeOptionSelector" class="form-control" id="companyDBTypeOptionSelector"
+              required [ngClass]="{ 'is-invalid': submitted && f.companyDBTypeOptionSelector.errors }">
+              <option [ngValue]="null" disabled selected>
+                {{"company.edit.company_option_DB-options_placeholder" | translate}}
+              </option>
+              <option [ngValue]=1>{{"company.edit.company_option_DB-option_on-prem" | translate}}
+              </option>
+              <option [ngValue]=2>{{"company.edit.company_option_DB-option_cloud" | translate}}
+              </option>
+            </select>
+            <div *ngIf="submitted && f.companyDBTypeOptionSelector.errors" class="invalid-feedback">
+              <div *ngIf="f.companyDBTypeOptionSelector.errors.required">
+                {{ "company.edit.company_option_DB-option_required" | translate }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-12 col-xl-4">
+                <label class="font-weight-bold"
+                  for="companyDBOptionSelector">{{ "company.edit.company_select_server_name" | translate }}</label>
+                <select formControlName="companyDBOptionSelector" class="form-control" id="companyDBOptionSelector"
+                  required [ngClass]="{ 'is-invalid': submitted && f.companyDBOptionSelector.errors }">
+                  <option [ngValue]="null" disabled selected>
+                    {{"company.edit.company_select_server_name_placeholder" | translate}}
+                  </option>
+                  <option *ngFor="let dbServer of dbservers" value="{{dbServer.DBServerID}}">
+                    {{dbServer.DBServerDomain}}
+                  </option>
+                </select>
+                <div *ngIf="submitted && f.companyDBOptionSelector.errors" class="invalid-feedback">
+                  <div *ngIf="f.companyDBOptionSelector.errors.required">
+                    {{ "company.edit.company_option_DB-option_required" | translate }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-xl-4">
+                <label class="font-weight-bold"
+                  for="companyDatabaseName">{{ "company.edit.company_database_name" | translate }}</label>
+                <input formControlName="companyDatabaseName" type="text" class="form-control mb-3 bg-light  rounded"
+                  id="companyDatabaseName" required placeholder="{{
+                          'company.edit.company_database_name_placeholder' | translate
+                        }}" required autofocus
+                  [ngClass]="{ 'is-invalid': submitted && f.companyDatabaseName.errors }" />
+                <div *ngIf="submitted && f.companyDatabaseName.errors" class="invalid-feedback">
+                  <div *ngIf="f.companyDatabaseName.errors.required">
+                    {{ "company.edit.company_database_name_required" | translate }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-xl-4">
+                <label class="font-weight-bold"
+                  for="companyScheme">{{ "company.edit.company_schema" | translate }}</label>
+                <input formControlName="companyScheme" type="text" class="form-control mb-3 bg-light  rounded"
+                  id="companyScheme" required placeholder="{{
+                          'company.edit.company_schema_placeholder' | translate
+                        }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.companyScheme.errors }" />
+                <div *ngIf="submitted && f.companyScheme.errors" class="invalid-feedback">
+                  <div *ngIf="f.companyScheme.errors.required">
+                    {{ "company.edit.company_schema_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" [accept]="logoImageAcceptMimes" [fileDimensionRatio]="logoDimension"
+              formControlName="companylogo" [enablePreview]="true"
+              [uploadButtonText]="'company.edit.company_upload_logo'"
+              [infoLabel]="'company.edit.company_logo_file_upload_label'">
+            </app-file-uploader>
+            <div
+              *ngIf="formValue.companylogo && formValue.companylogo.length && f.companylogo.errors"
+              class="text-danger">
+              <div
+                *ngIf="f.companylogo.errors.dimensionError && f.companylogo.errors.dimensionError.error">
+                {{f.companylogo.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.companylogo.errors && f.companylogo.errors.required" class="text-danger">
+              <div>
+                {{ "company.edit.company_logo_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 text-right">
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary text-black">
+          {{ "common.submit" | translate }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

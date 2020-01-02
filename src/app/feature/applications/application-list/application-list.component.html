@@ -1,0 +1,99 @@
+<app-loading [showLoading]="showApplicationLoading"></app-loading>
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="">
+  <div class="row px-3 mt-3">
+    <div class="col-12 col-md-5">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text border-right-0 bg-light text-muted">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+        </div>
+        <input formControlName="applicationCode" type="text" class="form-control border-left-0" id="applicationCode"
+          aria-label="applicationCode" placeholder="Search by Application Code" />
+      </div>
+    </div>
+    <div class="col-12 col-md-3">
+      <div class="form-group">
+        <select formControlName="categoryID" class="form-control" (change)="getApplicationsByCatID()">
+          <option value="" selected>{{
+              "applications.list.select_category" | translate
+              }}
+          </option>
+          <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-3">
+      <div class="form-group">
+        <select formControlName="industryID" class="form-control" (change)="getApplicationsByIndustryID()">
+          <option value="" selected>{{
+              "applications.list.select_industry" | translate
+              }}
+          </option>
+          <option *ngFor="let industry of industries" [value]="industry.id">{{ industry.name }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-1">
+      <div class="input-group w-100 float-right">
+        <select formControlName="count" class="form-control" (change)="updateCount()">
+          <option [value]="count" *ngFor="let count of countList">{{
+              count
+              }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</form>
+<ng-container *ngIf="applications && applications.length">
+  <div class="row py-2 mx-3 my-2 bg-secondary font-weight-bold text-dark">
+    <div class="col">
+      {{ "applications.list.applications_code" | translate }}
+    </div>
+    <div class="col d-none d-sm-block">
+      {{ "applications.list.applications_name" | translate }}
+    </div>
+    <!--<div class="col">{{'applications.list.applications_desc' | translate}}</div>-->
+    <div class="col d-none d-sm-none d-md-none d-lg-block">
+      {{ "applications.list.applications_category" | translate }}
+    </div>
+    <div class="col d-none d-sm-none d-md-none d-lg-block">
+      {{ "applications.list.applications_industry" | translate }}
+    </div>
+    <div class="col d-none d-sm-block">{{ "common.status" | translate }}</div>
+    <div class="col">{{ "common.action" | translate }}</div>
+  </div>
+  <div class="row py-2 mx-3 my-2 shadow-sm" *ngFor="let application of applications">
+    <div class="col">{{ application.AppCode }}</div>
+    <div class="col d-none d-sm-block">{{ application.AppName }}</div>
+    <!--<div class="col">{{application.AppDesc}}</div>-->
+    <div class="col d-none d-sm-none d-md-none d-lg-block">{{ application.AppCategoryName }}</div>
+    <div class="col d-none d-sm-none d-md-none d-lg-block">{{ getAppIndustry(application.AppID) }}</div>
+    <div class="col d-none d-sm-block">
+      <span class="badge badge-width p-2"
+        [ngClass]="{'badge-danger': application.IsDeleted, 'badge-success': !application.IsDeleted}">
+        {{application.IsDeleted ? 'Inactive' : 'Active'}}</span>
+    </div>
+    <div class="col">
+      <i class="fa fa-pencil-square-o mx-2 text-info font-weight-bold cursor-pointer"
+        routerLink="/applications/update/{{ application.AppID }}" aria-hidden="true"></i>
+      <i class="fa mx-2 font-weight-bold cursor-pointer" aria-hidden="true"
+        title="{{application.IsDeleted ? 'Activate' : 'Deactivate'}}"
+        [ngClass]="{'fa-check-circle-o text-success': application.IsDeleted, 'fa-times-circle-o text-danger': !application.IsDeleted}"
+        (click)="changeStatus(application.AppID, application.IsDeleted)"></i>
+      <!-- <i class="fa fa-trash-o mx-2 text-danger font-weight-bold cursor-pointer" aria-hidden="true"></i> -->
+    </div>
+  </div>
+  <div class="row p-1" *ngIf="collectionSize">
+    <div class="col-12 d-flex justify-content-center">
+      <app-pagination [(page)]="page" [collectionSize]="collectionSize" [(maxPageSize)]="maxPageSize"
+        (nextPageEvent)="onPageChange($event)"></app-pagination>
+    </div>
+  </div>
+</ng-container>
+<app-no-data *ngIf="applications && !applications.length" class="d-block m-5 text-center font-weight-bold"
+  [message]="'No data found with selected criteria'"></app-no-data>
+
+<app-confirm-dialog [(visible)]="showDialog" (closeCallBack)="proceedStatusUpdate($event)"></app-confirm-dialog>

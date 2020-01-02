@@ -1,0 +1,27 @@
+@media (min-width: 768px) {
+  .rate-dialog {
+    top: 40px;
+  }
+}
+.rate-dialog {
+  z-index: 1000;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  min-height: 200px;
+  width: 90%;
+  max-width: 450px;
+  padding: 12px;
+}
+
+.modal-dialog,
+.modal-content {
+  border-radius: 20px !important;
+}
+
+.modal-footer {
+  justify-content: center !important;
+}

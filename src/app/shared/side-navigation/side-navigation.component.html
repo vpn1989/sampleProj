@@ -1,12 +1,12 @@
 <iapps-sidebar reload-page="false">
   <iapp-applications class="d-none">
-    <iapp-application *ngFor="let sidebar of sideBars">
+    <iapp-application *ngFor="let category of categories">
       <application-id></application-id>
       <application-url></application-url>
-      <category-id>{{ sidebar.sideBarId }}</category-id>
-      <category-url>{{ sidebar.sideBarUrl }}</category-url>
-      <category-name>{{ sidebar.sideBarName }}</category-name>
-      <category-icon>{{ sidebar.icon }}</category-icon>
+      <category-id>{{ category.categoryID }}</category-id>
+      <category-url>{{ category.categoryURL }}</category-url>
+      <category-name>{{ category.categoryName }}</category-name>
+      <category-icon>{{ category.icon }}</category-icon>
     </iapp-application>
   </iapp-applications>
 </iapps-sidebar>

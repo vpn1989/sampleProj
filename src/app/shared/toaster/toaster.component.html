@@ -1,0 +1,25 @@
+<div class="fixed-top-toast transform-active" *ngIf="toastService.toasts && toastService.toasts.length">
+    <ngb-toast *ngFor="let toast of toastService.toasts" [class]="toast.classname" [autohide]="toast.autohide || true" [delay]="toast.delay"
+        (hide)="toastService.remove(toast)">
+        
+        <div class="bg-{{toast.info}} text-white" [ngClass]="{'':showToast}">
+            <div class="toast-header">
+                <i class="fa fa-check-circle mr-2 text-{{toast.info}}" *ngIf="toast.info === 'success'"></i>
+                <i class="fa fa-exclamation-circle mr-2 text-{{toast.info}}" *ngIf="toast.info !== 'success'"></i>
+                <strong class="mr-auto">{{toast.headertext}}</strong>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"
+                    (click)="toastService.remove(toast)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
+                    <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
+                </ng-template>
+
+                <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+            </div>
+        </div>
+        
+    </ngb-toast>
+</div>

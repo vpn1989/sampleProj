@@ -21,7 +21,7 @@ export class AuthenticationService {
       this.tokenSubject = new BehaviorSubject<TokenResponse>(JSON.parse(localStorage.getItem(AuthenticationService.TOKEN_IDENTIFIER)));
     } catch (exception) {
       this.tokenSubject = new BehaviorSubject<TokenResponse>(null);
-      console.log(exception);
+      // console.log(exception);
     }
   }
 
@@ -56,7 +56,6 @@ export class AuthenticationService {
   }
 
   private storeToken(token) {
-    console.log("Storing new token", token);
     localStorage.setItem(AuthenticationService.TOKEN_IDENTIFIER, JSON.stringify(token));
     this.tokenSubject.next(token);
     return token;

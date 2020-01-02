@@ -1,0 +1,30 @@
+<div class="upload-container my-2" [ngStyle]="isDisabled? {'pointer-events':'none'}:{}">
+  <div class="upload-placeholder" [attr.multiple]="multiple">
+    <!--<div class="col-12 text-center">Drop Files Here</div>-->
+    <!--<div class="col-12 text-center">or</div>-->
+    <div class="col-12 text-center">
+      <label class="btn btn-upload">
+        <i class="fa fa-upload mr-2 ng-fa-icon" aria-hidden="true"></i>
+        {{ (uploadButtonText ? uploadButtonText : "common.file_uploader") | translate }}
+      </label>
+    </div>
+    <div class="col-12 text-center">
+      <span *ngIf="infoLabel" class="text-black-50">
+        {{infoLabel | translate}}
+      </span>
+      <div *ngFor="let error of errors" class="text-danger text-break"><small>{{error}}</small></div>
+    </div>
+  </div>
+  <input #fileinput [attr.multiple]="multiple ? true : null" class="upload-input hand-cursor"
+    (change)="onChange($event)" type="file" [accept]="accept.toString()" />
+</div>
+<div class="row col-12 m-auto" *ngIf="enablePreview">
+  <div *ngFor="let file of data; let i = index;">
+    <div *ngIf="!file.isDeleted">
+      {{file.type}}
+      <app-file-viewer [errClass]="file.dimensionError ? 'dimension-error' : ''" [errMessage]="file.dimensionErrorMsg" [url]="file.url"
+        (delete)="removFile($event)"></app-file-viewer>
+    </div>
+
+  </div>
+</div>

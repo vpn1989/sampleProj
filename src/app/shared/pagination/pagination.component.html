@@ -1,0 +1,28 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': page===1}">
+      <a class="page-link" (click)="firstPage()" aria-label="Previous" >
+        <span aria-hidden="true">&laquo;&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': page===1}">
+      <a class="page-link" (click)="previousPage()" aria-label="Previous" >
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item cursor-pointer" *ngFor="let pageNumber of noOfPagesList" [ngClass]="{'active': pageNumber === page}">
+      <a class="page-link"
+              (click)="currentPageNumber(pageNumber)" [ngStyle]="{'pointer-events':  pageNumber === page ? 'none' : 'inherit'}">{{pageNumber}}</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': page===noOfPagesList[noOfPagesList.length-1]}">
+      <a class="page-link" (click)="nextPage()" aria-label="Next" >
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': page===noOfPagesList[noOfPagesList.length-1]}">
+      <a class="page-link" (click)="lastPage()" aria-label="Next" >
+        <span aria-hidden="true">&raquo;&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

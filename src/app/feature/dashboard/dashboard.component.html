@@ -1,1 +1,15 @@
-<p>dashboard works!</p>
+<!-- Add below classes and remove the "card-title" class from the title <h6> if needed to manage the card frame differently-->
+<!-- col-lg-3 col-md-4 col-sm-6 col-12 col-xl-2 -->
+
+<div
+  class="shadow bg-white card  border-0 float-left m-3  rounded-lg"
+  *ngFor="let category of categories"
+  (click)="routToURL(category.categoryURL)"
+>
+  <div class="card-body text-center">
+    <div>
+      <img src="{{ category.image }}" />
+      <h6 class="card-title pt-2">{{ category.categoryName }}</h6>
+    </div>
+  </div>
+</div>

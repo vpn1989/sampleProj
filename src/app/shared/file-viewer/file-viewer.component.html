@@ -1,0 +1,18 @@
+<div class="my-3">
+  <div class="image-container position-relative text-center mr-2 float-left" *ngIf="url">
+    <object class="border rounded p-2 {{errClass}}" *ngIf="!validImage()" [data]="imageSanitized"></object>
+    <img class="border rounded p-2 {{errClass}}" width="100" height="100" *ngIf="validImage()" [src]="imageSanitized"
+      (click)="(errClass === '') ? previewImage(url) : ''" />
+    <label *ngIf="(errClass !== '')"
+      class="error-message p-2 position-absolute d-flex justify-content-center align-items-center text-danger font-weight-bold w-100 h-100">
+      {{errMessage}}
+    </label>
+    <i class="fa fa-times-circle-o position-absolute cursor-pointer" aria-hidden="true"
+      (click)="deleteClicked($event, url)"></i>
+  </div>
+</div>
+<app-dialog [(visible)]="showDialog" [closable]="true" [template]="true" (closeCallBack)="closeCallBack()">
+  <div class="d-flex justify-content-center align-items-center" style="min-height: 250px;">
+    <img [src]="imageSanitized" class="img-fluid mb-2" style="width: 100%;" />
+  </div>
+</app-dialog>

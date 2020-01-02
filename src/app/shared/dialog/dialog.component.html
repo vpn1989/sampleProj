@@ -1,0 +1,75 @@
+<div [@dialog] *ngIf="visible" class="dialog p-0 rounded">
+  <div
+    class="modal p-0 fade show d-block"
+    id="exampleModal"
+    style="padding-right: 17px;position: relative !important;"
+  >
+    <div class="modal-dialog m-0" role="document">
+      <div class="modal-content border-0">
+        <div class="modal-header border-0 px-3 py-2">
+          <!--<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>-->
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="close()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body px-3 py-2">
+          <div class="no-content" *ngIf="!template">
+            <div class="text-center ">
+              <span
+                class="fa-stack fa-3x text-success"
+                *ngIf="info === 'success'"
+              >
+                <i class="fa fa-circle-o fa-stack-2x"></i>
+                <i class="fa fa-check fa-stack-1x"></i>
+              </span>
+              <span class="fa-stack fa-3x text-info" *ngIf="info === 'info'">
+                <i class="fa fa-circle-o fa-stack-2x"></i>
+                <i class="fa fa-info fa-stack-1x"></i>
+              </span>
+              <span class="fa-stack fa-3x text-danger" *ngIf="info === 'error'">
+                <i class="fa fa-circle-o fa-stack-2x"></i>
+                <i class="fa fa-exclamation fa-stack-1x"></i>
+              </span>
+              <span class="fa-stack fa-3x text-warning" *ngIf="info === 'warn'">
+                <i class="fa fa-circle-o fa-stack-2x"></i>
+                <i class="fa fa-exclamation fa-stack-1x"></i>
+              </span>
+            </div>
+            <h3 class="text-center font-weight-bolder">
+              {{ message }}
+            </h3>
+          </div>
+          <div class="content" *ngIf="template">
+            <ng-content></ng-content>
+          </div>
+        </div>
+        <div class="border-0 px-3 py-2 mb-2 text-center" *ngIf="!template">
+          <button
+            type="button"
+            class="btn btn-info mr-2"
+            *ngIf="closable"
+            data-dismiss="modal"
+            (click)="proceed()"
+          >
+            {{ "home.modal_continue" | translate }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="close()"
+          >
+            {{ "home.modal_close" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="visible" class="overlay" (click)="close()"></div>

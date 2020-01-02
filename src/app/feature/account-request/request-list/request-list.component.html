@@ -1,0 +1,100 @@
+<app-loading [showLoading]="showLoading"></app-loading>
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="">
+  <div class="row px-3">
+    <div class="col-12 col-md-6">
+      <div class="input-group mt-3">
+        <select formControlName="requestStatus" class="form-control" (change)="searachFormRequestStausChange()">
+          <option value="" selected>Select status</option>
+          <option *ngFor="let status of requestStatusList" [value]="status.RequestStatusID">{{ status.StatusName }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="input-group mt-3 w-25 float-right">
+        <select formControlName="count" class="form-control" (change)="updateCount()">
+          <option [value]="count" *ngFor="let count of countList">{{ count }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row py-2 mx-3 my-2 bg-secondary font-weight-bold text-dark">
+  <div class="col d-none d-xl-block">
+    {{ "request_account.request_list.name" | translate }}
+  </div>
+  <div class="col">
+    {{ "request_account.request_list.company" | translate }}
+  </div>
+  <div class="col ">
+    {{ "request_account.request_list.status" | translate }}
+  </div>
+  <!--<div class="col">{{'applications.applications_list.applications_desc' | translate}}</div>-->
+  <div class="col d-none d-lg-block">
+    {{ "request_account.request_list.contact" | translate }}
+  </div>
+  <div class="col d-none d-xl-block">
+    {{ "request_account.request_list.message" | translate }}
+  </div>
+  <div class="col text-center">
+    {{ "request_account.request_list.action" | translate }}
+  </div>
+</div>
+
+<div class="row py-2 mx-3 my-2 shadow-sm" *ngFor="let request of accountRequests">
+  <div class="col d-none d-xl-block">
+    {{ request.Name }}
+  </div>
+  <div class="col">
+    {{ request.Company }}
+  </div>
+  <div class="col ">
+    <small class=""
+      [ngClass]="{'text-info': (request.RequestStatusID === status.New), 'text-primary': (request.RequestStatusID === status.Processing),
+                  'text-success': (request.RequestStatusID === status.Accepted), 'text-danger': (request.RequestStatusID === status.Rejected)}">
+      {{ request.StatusName }}</small>
+  </div>
+  <!--<div class="col">{{application.AppDesc}}</div>-->
+  <div class="col d-none d-lg-block">
+    <div>{{ "request_account.request_list.email" | translate }}: {{ request.Email }}</div>
+    <div>{{ "request_account.request_list.phone" | translate }}: {{ request.PhoneNumber }}</div>
+  </div>
+  <div class="col d-none d-xl-block">{{ request.Message }}</div>
+
+  <div class="col text-center">
+    <button type="button" class="btn btn-sm btn-primary p-1" *ngIf="request.RequestStatusID === status.New "
+      title="PROCESSING" (click)="processingRequest(request.ID, status.Processing)">
+      <i class="fa fa-arrow-circle-o-up float-left p-1" aria-hidden="true"></i>
+      <label
+        class="d-none d-lg-block btn-action float-left m-0 cursor-pointer">{{ "request_account.request_list.process" | translate }}</label>
+    </button>
+    <button type="button" class="btn btn-sm btn-primary p-1 mr-1" *ngIf="request.RequestStatusID === status.Processing"
+      title="APPROVE" (click)="processingRequest(request.ID, status.Accepted)">
+      <i class="fa fa-check-circle float-left p-1" aria-hidden="true"></i>
+      <label
+        class="d-none d-lg-block btn-action float-left m-0 cursor-pointer">{{ "request_account.request_list.approve" | translate }}</label>
+      <!-- {{ "request_account.request_list.approve" | translate }} -->
+    </button>
+    <button type="button" class="btn btn-sm btn-outline-primary p-1"
+      *ngIf="request.RequestStatusID === status.Processing" title="REJECT"
+      (click)="processingRequest(request.ID, status.Rejected)">
+      <i class="fa fa-times-circle float-left p-1" aria-hidden="true"></i>
+      <label
+        class="d-none d-lg-block btn-action float-left m-0 cursor-pointer">{{ "request_account.request_list.reject" | translate }}</label>
+      <!-- {{ "request_account.request_list.reject" | translate }} -->
+    </button>
+  </div>
+</div>
+
+<app-no-data *ngIf="accountRequests && !accountRequests.length" class="d-block m-5 text-center font-weight-bold"
+  [message]="'No data found with selected criteria'"></app-no-data>
+
+<div class="row p-1" *ngIf="collectionSize">
+  <div class="col-12 d-flex justify-content-center">
+    <app-pagination [(page)]="page" [collectionSize]="collectionSize" [(maxPageSize)]="maxPageSize"
+      (nextPageEvent)="onPageChange($event)"></app-pagination>
+  </div>
+</div>
+
+<app-confirm-dialog [(visible)]="showDialog" (closeCallBack)="closeCallBack($event)"></app-confirm-dialog>

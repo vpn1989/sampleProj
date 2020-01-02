@@ -1,0 +1,38 @@
+<div [@dialog] *ngIf="visible" class="rate-dialog p-0 rounded">
+    <div class="modal p-0 fade show d-block" id="exampleModal"
+        style="padding-right: 17px;position: relative !important;">
+        <div class="modal-dialog modal-dialog-centered m-0" role="document">
+            <div class="modal-content border-0">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <button type="button" class="close" (click)="proceed(false)">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center p-0 px-3">
+                        <div class="no-content" *ngIf="!template">
+                            <div class="text-center ">
+                                <span class="fa-stack fa-3x text-info">
+                                    <i class="fa fa-circle-o fa-stack-2x text-primary"></i>
+                                    <i class="fa fa-bell fa-stack-1x text-primary"></i>
+                                </span>
+                            </div>
+                            <h4 class="text-center font-weight-bolder">
+                                {{message | translate}}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="border-0 px-3 py-2 mb-2 text-center">
+                        <button type="button" class="btn btn-primary mr-2" data-dismiss="modal" (click)="proceed(true)">
+                            {{ "home.modal_continue" | translate }}
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="proceed(false)">
+                            {{ "home.modal_no" | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="visible" class="overlay" (click)="proceed(false)"></div>

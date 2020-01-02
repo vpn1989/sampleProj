@@ -3,20 +3,24 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { AuthenticationService } from "../../core/auth/shared/authentication.service";
 import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { catchError, switchMap, filter, take, tap } from "rxjs/operators";
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
     private isRefreshing = false;
 
-    constructor(private authService: AuthenticationService) { }
+    constructor(private authService: AuthenticationService,
+        private translateService: TranslateService,
+        private toastService: ToastService) { }
 
     intercept(
         request: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        console.log(request.url);
+        // console.log(request.url);
         if (!request.url.includes("token") && !request.url.includes("assets") && this.authService.isLoggedIn()) {
-            console.log(request.url);
+            // console.log(request.url);
             const accessToken = this.authService.getAcessToken();
             if (accessToken) {
                 request = this.addAcessToken(request, accessToken);
@@ -24,7 +28,7 @@ export class TokenInterceptor implements HttpInterceptor {
         }
         return next.handle(request).pipe(
             tap(
-                () => {},
+                () => { },
                 (error: any) => {
                     if (error instanceof HttpErrorResponse) {
                         switch ((error as HttpErrorResponse).status) {
@@ -32,6 +36,10 @@ export class TokenInterceptor implements HttpInterceptor {
                                 return this.handle400Error(error);
                             case 401:
                                 return this.handle401Error(request, next);
+                            case 405:
+                                return this.handle405Error(error);
+                            case 500:
+                                return this.handle500Error(error);
                             default:
                                 return throwError(error);
                         }
@@ -42,14 +50,53 @@ export class TokenInterceptor implements HttpInterceptor {
             )
         );
     }
+
     handle400Error(error: HttpErrorResponse): void {
         if (error && error.status === 400 && error.error && error.error.error === "invalid_grant") {
             // If we get a 400 and the error message is 'invalid_grant', the token is no longer valid so logout.
             return this.authService.logout();
         }
+
+        if (error && (error.status === 400) && error.error && error.error.error !== "") {
+            this.toastService.show(error.error.error, {
+                delay: 4000,
+                autohide: true,
+                info: 'danger',
+                headertext: this.translateService.instant("common.error_head")
+            });
+            // If we get a 400 and the error message is duplicate key, then show an error toast message.
+            return;
+        }
         throwError(error);
     }
 
+    handle405Error(error: HttpErrorResponse): void {
+        if (error && (error.status === 405) && error.error && error.error.error !== "") {
+            this.toastService.show(error.error.error, {
+                delay: 4000,
+                autohide: true,
+                info: 'danger',
+                headertext: this.translateService.instant("common.error_head")
+            });
+            // If we get a 500 and the error message is duplicate key, then show an error toast message.
+            return;
+        }
+        throwError(error);
+    }
+
+    handle500Error(error: HttpErrorResponse): void {
+        if (error && (error.status === 500) && error.error && error.error.error !== "") {
+            this.toastService.show(error.error.error, {
+                delay: 4000,
+                autohide: true,
+                info: 'danger',
+                headertext: this.translateService.instant("common.error_head")
+            });
+            // If we get a 500 and the error message is duplicate key, then show an error toast message.
+            return;
+        }
+        throwError(error);
+    }
 
     private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshing) {

@@ -42,13 +42,13 @@ export class AuthMockService {
   }
 
   generateToken(): any {
-    return JSON.stringify({
+    return {
       access_token: "d77276be-2440-4687-b625-3b6bba066deb",
       token_type: "bearer",
       refresh_token: "26aff65e-f5b8-4ab7-a768-fd8b4c9025a4",
       expires_in: 119,
       scope: "write"
-    });
+    };
   }
 
   validateLogin(): boolean {

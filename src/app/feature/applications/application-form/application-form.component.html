@@ -1,0 +1,325 @@
+<app-loading [showLoading]="showLoading"></app-loading>
+<div class="px-3" [ngStyle]="showLoading?{'min-height': '300px'} : {}">
+  <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="mt-3" *ngIf="!showLoading">
+    <div class="row p-2">
+      <div class="col-12 col-md-6">
+        <div class="form-group">
+          <label class="font-weight-bold" for="code">{{
+            "applications.form.app_code" | translate
+            }}</label>
+          <input formControlName="code" type="text" class="form-control bg-light  rounded" id="code" required
+            placeholder="{{
+              'applications.form.app_code_placeholder' | translate
+            }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.code.errors }" />
+
+          <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+            <div *ngIf="f.code.errors.required">
+              {{ "applications.form.app_code_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="name">{{
+            "applications.form.app_name" | translate
+            }}</label>
+          <input formControlName="name" type="text" class="form-control bg-light  rounded" id="name" required
+            placeholder="{{
+              'applications.form.app_name_placeholder' | translate
+            }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+
+          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+            <div *ngIf="f.name.errors.required">
+              {{ "applications.form.app_name_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="description">{{
+            "applications.form.app_description" | translate
+            }}</label>
+          <textarea formControlName="description" type="text" class="form-control bg-light  rounded"
+            id="description" required placeholder="{{
+              'applications.form.app_description_placeholder' | translate
+            }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.description.errors }">
+          </textarea>
+
+          <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+            <div
+              *ngIf="f.description.errors.maxlength && (f.description.errors.maxlength.actualLength > f.description.errors.maxlength.requiredLength)">
+              {{ ("applications.form.app_description_max_length" | translate) + f.description.errors.maxlength.requiredLength }}
+            </div>
+            <div *ngIf="f.description.errors.required">
+              {{ "applications.form.app_description_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="categoryId">{{
+            "applications.form.app_category" | translate
+            }}</label>
+          <select formControlName="categoryId" class="form-control" required
+            [ngClass]="{ 'is-invalid': submitted && f.categoryId.errors }">
+            <option [ngValue]="null" selected>{{
+              "applications.form.select_category" | translate
+              }}
+            </option>
+            <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}
+            </option>
+          </select>
+
+          <div *ngIf="submitted && f.categoryId.errors" class="invalid-feedback">
+            <div *ngIf="f.categoryId.errors.required">
+              {{ "applications.form.app_category_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">{{
+            "applications.form.app_industry" | translate
+            }}</label>
+
+          <ng-select formControlName="selectedIndustryIds" [multiple]="true" class="disabled custom-multi-select"
+            notFoundText="{{'applications.form.select_industry_notfound' | translate}}"
+            [ngClass]="{ 'is-invalid': submitted && f.selectedIndustryIds.errors }"
+            placeholder="{{'applications.form.select_industry' | translate}}" (change)="addItem($event)"
+            [closeOnSelect]="false">
+            <ng-option *ngFor="let item of industries" [value]="item.id">
+              {{item.name}}
+            </ng-option>
+          </ng-select>
+
+          <div *ngIf="submitted && f.selectedIndustryIds.errors" class="invalid-feedback">
+            <div *ngIf="f.selectedIndustryIds.errors.required">
+              {{ "applications.form.app_industry_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="appTypeCode">{{
+              "applications.form.app_type_codes" | translate
+              }}</label>
+          <select formControlName="appTypeCode" class="form-control" required
+            [ngClass]="{ 'is-invalid': submitted && f.appTypeCode.errors }">
+            <option [ngValue]="''" selected>{{
+                "applications.form.select_type_codes" | translate
+                }}
+            </option>
+            <option *ngFor="let types of applicationTypes" [value]="types.appTypeCode">{{ types.appType }}
+            </option>
+          </select>
+
+          <div *ngIf="submitted && f.appTypeCode.errors" class="invalid-feedback">
+            <div *ngIf="f.appTypeCode.errors.required">
+              {{ "applications.form.app_type_codes_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold">{{
+                "applications.form.support_apps" | translate
+                }}</label>
+
+          <ng-select formControlName="dependentAppIds" [multiple]="true" class="disabled"
+            notFoundText="{{'applications.form.select_support_apps_notfound' | translate}}"
+            placeholder="{{'applications.form.select_support_apps' | translate}}" (change)="addSupportItem($event)"
+            [closeOnSelect]="false">
+            <ng-option *ngFor="let supportApp of supportingApps" [value]="supportApp.appId">
+              {{supportApp.name}}
+            </ng-option>
+          </ng-select>
+        </div>
+
+        <div class="form-group mb-4">
+          <label class="font-weight-bold">{{
+              "applications.form.roles" | translate
+              }}</label>
+
+          <button class="btn btn-primary float-right" type="button" (click)="addRole()">Add Role</button>
+
+          <div class="col-12" *ngIf="accessRightsJson && accessRightsJson.length">
+            <div class="role-label" *ngFor="let role of accessRightsJson; let i = index;">
+              <span class="ng-value-icon left px-1" (click)="deleteRoleById(i)">×</span>
+              <span class="ng-value-label pr-1"> {{role.AccessName}} </span>
+            </div>
+          </div>
+
+          <div *ngIf="submitted && f.accessRightsJson.errors" class="invalid-feedback custom-role-map"
+            [ngClass]="{ 'is-invalid': submitted && f.accessRightsJson.errors }">
+            <div *ngIf="f.accessRightsJson.errors.required">
+              {{ "applications.form.roles_required" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="font-weight-bold" for="urlSuffix">{{
+            "applications.form.url_suffix" | translate
+            }}</label>
+          <input formControlName="urlSuffix" type="text" class="form-control bg-light  rounded" id="urlSuffix"
+            required placeholder="{{
+                'applications.form.url_suffix_placeholder' | translate
+              }}" required autofocus [ngClass]="{ 'is-invalid': submitted && f.urlSuffix.errors }" />
+
+          <div *ngIf="submitted && f.urlSuffix.errors" class="invalid-feedback">
+            <div *ngIf="f.urlSuffix.errors.required">
+              {{ "applications.form.url_suffix_required" | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="font-weight-bold" for="urlSuffix">{{
+            "applications.form.summary" | translate
+            }}</label>
+          <ckeditor [config]="configTextEditor" [editor]="appSummaryEditor" (ready)="onReady($event)"
+            formControlName="summary" tagName="textarea"></ckeditor>
+          <div *ngIf="submitted && f.summary.errors" class="text-danger">
+            <div *ngIf="f.summary.errors.required">
+              {{ "applications.form.summary_required" | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" formControlName="icon16" [fileDimensionRatio]="icon16FileDimension"
+              [uploadButtonText]="'applications.form.upload_icon'"
+              [infoLabel]="'applications.form.application_icon_file_upload_label_16'" [accept]="iconAcceptMimes"
+              [enablePreview]="true">
+            </app-file-uploader>
+
+            <div *ngIf="formValue.icon16 && formValue.icon16.length && f.icon16.errors" class="text-danger">
+              <div *ngIf="f.icon16.errors.dimensionError && f.icon16.errors.dimensionError.error">
+                {{f.icon16.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.icon16.errors" class="text-danger">
+              <div *ngIf="f.icon16.errors.required">
+                {{ "applications.form.app_icon_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" formControlName="icon32" [fileDimensionRatio]="icon32FileDimension"
+              [infoLabel]="'applications.form.application_icon_file_upload_label_32'"
+              [uploadButtonText]="'applications.form.upload_icon'" [accept]="iconAcceptMimes" [enablePreview]="true">
+            </app-file-uploader>
+            <div *ngIf="formValue.icon32 && formValue.icon32.length && f.icon32.errors" class="text-danger">
+              <div *ngIf="f.icon32.errors.dimensionError && f.icon32.errors.dimensionError.error">
+                {{f.icon32.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.icon32.errors && f.icon32.errors.required" class="text-danger">
+              <div>
+                {{ "applications.form.app_icon_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" formControlName="icon64" [fileDimensionRatio]="icon64FileDimension"
+              [infoLabel]="'applications.form.application_icon_file_upload_label_64'"
+              [uploadButtonText]="'applications.form.upload_icon'" [accept]="iconAcceptMimes" [enablePreview]="true">
+            </app-file-uploader>
+            <div *ngIf="formValue.icon64 && formValue.icon64.length && f.icon64.errors" class="text-danger">
+              <div *ngIf="f.icon64.errors.dimensionError && f.icon64.errors.dimensionError.error">
+                {{f.icon64.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.icon64.errors && f.icon64.errors.required" class="text-danger">
+              <div>
+                {{ "applications.form.app_icon_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" formControlName="icon128" [fileDimensionRatio]="icon128FileDimension"
+              [infoLabel]="'applications.form.application_icon_file_upload_label_128'"
+              [uploadButtonText]="'applications.form.upload_icon'" [accept]="iconAcceptMimes" [enablePreview]="true">
+            </app-file-uploader>
+            <div *ngIf="formValue.icon128 && formValue.icon128.length && f.icon128.errors" class="text-danger">
+              <div *ngIf="f.icon128.errors.dimensionError && f.icon128.errors.dimensionError.error">
+                {{f.icon128.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.icon128.errors && f.icon128.errors.required" class="text-danger">
+              <div>
+                {{ "applications.form.app_icon_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="false" formControlName="bannerImage" [fileDimensionRatio]="bannerDimension"
+              [infoLabel]="'applications.form.application_banner_file_upload_label'"
+              [uploadButtonText]="'applications.form.upload_banner'" [accept]="bannerImageAcceptMimes"
+              [enablePreview]="true">
+            </app-file-uploader>
+            <div *ngIf="formValue.bannerImage && formValue.bannerImage.length && f.bannerImage.errors"
+              class="text-danger">
+              <div *ngIf="f.bannerImage.errors.dimensionError && f.bannerImage.errors.dimensionError.error">
+                {{f.bannerImage.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.bannerImage.errors && f.bannerImage.errors.required" class="text-danger">
+              <div>
+                {{ "applications.form.app_banner_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-md-6 p-0 m-auto">
+            <app-file-uploader [multiple]="true" formControlName="screenshots"
+              [fileDimensionRatio]="screenshotsDimension" [uploadButtonText]="'applications.form.upload_screenshot'"
+              [infoLabel]="'applications.form.application_screenshot_upload_label'" [accept]="screenshotsAcceptMimes"
+              [enablePreview]="true">
+            </app-file-uploader>
+            <div *ngIf="formValue.screenshots && formValue.screenshots.length && f.screenshots.errors"
+              class="text-danger">
+              <div *ngIf="f.screenshots.errors.dimensionError && f.screenshots.errors.dimensionError.error">
+                {{f.screenshots.errors.dimensionError.error}}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.screenshots.errors && f.screenshots.errors.required" class="text-danger">
+              <div>
+                {{ "applications.form.app_screen_required" | translate }}
+              </div>
+            </div>
+            <div *ngIf="submitted && f.screenshots.errors && f.screenshots.errors.minlength" class="text-danger">
+              <div>
+                {{("applications.form.minimum_screenshots_prefix" | translate)}}
+                {{f.screenshots.errors.minlength.requiredLength}}
+                {{("applications.form.minimum_screenshots_sufix" | translate)}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 text-right">
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary text-black">
+            {{ "common.submit" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-dialog *ngIf="showDialog" [(visible)]="showDialog" [closable]="true" [template]="true"
+  (closeCallBack)="closeCallBack()">
+  <app-role-form [rolesData]="accessRightsJson" (submitRoleData)="roleDataUpdate($event)"></app-role-form>
+</app-dialog>

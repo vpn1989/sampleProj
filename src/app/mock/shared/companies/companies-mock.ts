@@ -1,0 +1,193 @@
+import { Company } from "src/app/feature/shared/models/company";
+
+export const companiesMock: Company[] = JSON.parse(
+    localStorage.getItem("iapps-companies")
+  ) || {
+    Companies: [
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:0
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:0
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:0
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:0
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:1
+      },
+      {
+        CompanyID: 1,
+        CompanyCode: "COMP1",
+        CompanyName: "Company1",
+        CompanyAddress: "India",
+        CompanyUsersDomain: "company1.com",
+        CompanyEmail: "info@company1.com",
+        CompanyWebsite: "company1.com",
+        CompanyDBServerID: 2,
+        CompanyDBSchema: "GTL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company1",
+        DBServerType: "DB", 
+        IsDeleted:0
+      },
+      {
+        CompanyID: 2,
+        CompanyCode: "COMP2",
+        CompanyName: "Company2",
+        CompanyAddress: "Germany",
+        CompanyUsersDomain: "company2.com",
+        CompanyEmail: "infol@company2.com",
+        CompanyWebsite: "company2.com",
+        CompanyDBServerID: 9,
+        CompanyDBSchema: "FOEHL",
+        DBServerDomain: "192.168.37.31",
+        DBName: "company2",
+        DBServerType: "DB", 
+        IsDeleted:1
+      }
+    ],
+    PageMeta: [
+      {
+        Cnt: 12
+      }
+    ]
+  };

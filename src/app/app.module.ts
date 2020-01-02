@@ -14,6 +14,21 @@ import { HomeComponent } from "./home/home.component";
 import { httpInterceptorProviders } from "./interceptors/index";
 import { MockModule } from "./mock/mock.module";
 import { environment } from "src/environments/environment";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, "/dam/public/backoffice/assets/i18n/", ".json");
+}
+
+const translationOptions = {
+  loader: {
+    provide: TranslateLoader,
+    useFactory: createTranslateLoader,
+    deps: [HttpClient]
+  }
+};
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -24,6 +39,7 @@ import { environment } from "src/environments/environment";
     CoreModule,
     SharedModule,
     environment.mockMode ? MockModule : [],
+    TranslateModule.forRoot(translationOptions),
   ],
   exports: [],
   providers: [httpInterceptorProviders],

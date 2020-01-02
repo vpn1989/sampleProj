@@ -13,54 +13,73 @@ import {
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { TranslateService } from "@ngx-translate/core";
-import { FormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 
 import { TopNavigationComponent } from "./top-navigation/top-navigation.component";
 import { FooterComponent } from "./footer/footer.component";
+import { LoadingComponent } from "./loading/loading.component";
+import { ImagePreviewComponent } from "./image-preview/image-preview.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { RouterModule } from "@angular/router";
 import { NoDataFoundComponent } from "./no-data-found/no-data-found.component";
+import { DialogComponent } from "./dialog/dialog.component";
 import { SideNavigationComponent } from "./side-navigation/side-navigation.component";
-import { SideMenuService } from "./services/side-menu.service";
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "/blueprint/assets/i18n/", ".json");
-}
-
-const translationOptions = {
-  loader: {
-    provide: TranslateLoader,
-    useFactory: createTranslateLoader,
-    deps: [HttpClient]
-  }
-};
+import { BackofficeCategoriesService } from "./services/backoffice-categories.service";
+import { FileUploaderComponent } from "./file-uploader/file-uploader.component";
+import { FileViewerComponent } from "./file-viewer/file-viewer.component";
+import { PaginationComponent } from "./pagination/pagination.component";
+import { FileProcessingService } from "./services/file-processing.service";
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { FileDimensionValidatorService } from './validators/file-dimension-validator.service';
+import { ToasterComponent } from './toaster/toaster.component';
 
 @NgModule({
   declarations: [
     TopNavigationComponent,
     FooterComponent,
+    LoadingComponent,
+    ImagePreviewComponent,
     NotFoundComponent,
     NoDataFoundComponent,
-    SideNavigationComponent
+    DialogComponent,
+    SideNavigationComponent,
+    FileUploaderComponent,
+    FileViewerComponent,
+    PaginationComponent,
+    ConfirmDialogComponent,
+    ToasterComponent
   ],
   imports: [
     RouterModule,
     CommonModule,
-    TranslateModule.forRoot(translationOptions),
-    FormsModule
+    TranslateModule.forChild({}),
+    ReactiveFormsModule,
+    FormsModule,
+    NgSelectModule
   ],
   exports: [
     CommonModule,
     TranslateModule,
+    NgSelectModule,
     TopNavigationComponent,
     FooterComponent,
+    LoadingComponent,
+    ImagePreviewComponent,
+    ReactiveFormsModule,
     FormsModule,
     NotFoundComponent,
     NoDataFoundComponent,
-    SideNavigationComponent
+    DialogComponent,
+    SideNavigationComponent,
+    FileUploaderComponent,
+    FileViewerComponent,
+    PaginationComponent,
+    ConfirmDialogComponent,
+    ToasterComponent
   ],
-  providers: [TranslateService, SideMenuService],
-  entryComponents: [],
+  providers: [TranslateService, BackofficeCategoriesService, FileProcessingService, FileDimensionValidatorService],
+  entryComponents: [ImagePreviewComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class SharedModule {

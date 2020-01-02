@@ -1,0 +1,63 @@
+<form [formGroup]="roleForm" (ngSubmit)="onSubmitRoleMapping()" class="mt-3">
+    <div class="row p-2">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold" for="roleCode">{{
+                      "applications.form.role_code" | translate
+                      }}</label>
+                <input formControlName="roleCode" type="text" class="form-control mb-3 bg-light rounded" id="roleCode"
+                    required placeholder="{{
+                        'applications.form.role_code_placeholder' | translate
+                      }}" required autofocus [ngClass]="{ 'is-invalid': roleSubmitted && f.roleCode.errors }" />
+
+                <div *ngIf="roleSubmitted && f.roleCode.errors" class="invalid-feedback">
+                    <div *ngIf="f.roleCode.errors.required">
+                        {{ "applications.form.role_code_required" | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                <label class="font-weight-bold" for="roleName">{{
+                        "applications.form.role_name" | translate
+                        }}</label>
+                <input formControlName="roleName" type="text" class="form-control mb-3 bg-light  rounded" id="roleName"
+                    required placeholder="{{
+                          'applications.form.role_name_placeholder' | translate
+                        }}" required autofocus [ngClass]="{ 'is-invalid': roleSubmitted && f.roleName.errors }" />
+
+                <div *ngIf="roleSubmitted && f.roleName.errors" class="invalid-feedback">
+                    <div *ngIf="f.roleName.errors.required">
+                        {{ "applications.form.role_name_required" | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 text-right">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary text-black" (click)="addRoleToApplication()">
+                    {{ "applications.form.add_role" | translate }}
+                </button>
+            </div>
+        </div>
+
+        <div class="col-12" *ngIf="accessData && accessData.length">
+            <div class="role-label" *ngFor="let role of accessData; let i = index;">
+                <span class="ng-value-icon left px-1" (click)="deleteRoleById(i)">×</span>
+                <span class="ng-value-label pr-1"> {{role.AccessName}} </span>
+            </div>
+        </div>
+
+        <div class="col-12 text-right">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary text-black" [disabled]="accessData && !accessData.length">
+                    {{ "common.submit" | translate }}
+                </button>
+            </div>
+        </div>
+
+    </div>
+</form>

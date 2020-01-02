@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { SideMenuService } from "../services/side-menu.service";
+import { BackofficeCategoriesService } from "../services/backoffice-categories.service";
 
 @Component({
   selector: "app-side-nav",
@@ -7,12 +7,12 @@ import { SideMenuService } from "../services/side-menu.service";
   styleUrls: ["./side-navigation.component.scss"]
 })
 export class SideNavigationComponent implements OnInit {
-  sideBars: any[];
+  categories: any[];
   constructor(
-    private sideMenuService: SideMenuService
+    private backofficeCategoriesService: BackofficeCategoriesService
   ) {}
 
   ngOnInit() {
-    this.sideBars = this.sideMenuService.getSideBarMenu();
+    this.categories = this.backofficeCategoriesService.getBackofficeCategories();
   }
 }

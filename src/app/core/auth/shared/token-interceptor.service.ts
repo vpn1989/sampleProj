@@ -31,9 +31,9 @@ export class TokenInterceptor implements HttpInterceptor {
         ) {
             // console.log(`The request ${request.url} needs to be add token`);
             return next.handle(this.addAcessToken(request)).pipe(catchError((err, caught) => {
-                console.log(err, caught);
+                // console.log(err, caught);
                 if (err instanceof HttpErrorResponse) {
-                    console.log(err.status);
+                    // console.log(err.status);
                     if (err.status === 401) {
                         return this.handle401Error(request, next);
                     }
@@ -68,7 +68,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 filter(result => result !== null),
                 take(1),
                 switchMap(() => {
-                    console.log(`Processing ${request.url} since refresh token request is completed`);
+                    // console.log(`Processing ${request.url} since refresh token request is completed`);
                     this.refreshTokenInProgress = false;
                     return next.handle(this.addAcessToken(request));
                 })

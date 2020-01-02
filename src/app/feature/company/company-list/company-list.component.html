@@ -1,0 +1,83 @@
+<app-loading [showLoading]="showLoader"></app-loading>
+
+<form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="">
+  <div class="row px-3">
+    <div class="col-12 col-md-6">
+      <div class="input-group mt-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text border-right-0 bg-light text-muted">
+            <i class="fa fa-search" aria-hidden="true"></i>
+          </div>
+        </div>
+        <input formControlName="companyCode" type="text" class="form-control border-left-0" id="companyCode"
+          aria-label="companyCode" placeholder="Search by Company Code" />
+      </div>
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="input-group mt-3 w-25 float-right">
+        <select formControlName="count" class="form-control" (change)="updateCount()">
+          <option [value]="count" *ngFor="let count of countList">{{
+            count
+          }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row py-2 mx-3 my-2 bg-secondary font-weight-bold text-dark">
+  <div class="col col-xs-12 col-sm-3 col-md-3 col-lg-2">
+    {{ "company.company_list.company_code" | translate }}
+  </div>
+  <div class="col col-xs-12 col-sm-4 col-md-4 col-lg-2">
+    {{ "company.company_list.company_name" | translate }}
+  </div>
+  <div class="col col-xs-12 col-sm-3 col-md-4 col-lg-3">
+    {{ "company.company_list.company_address" | translate }}
+  </div>
+  <div class="col col-xs-12 col-sm-2 col-md-2 col-lg-1">
+    {{ "common.status" | translate }}
+  </div>
+  <div class="col">{{ "common.action" | translate }}</div>
+</div>
+<div class="row py-2 mx-3 my-2 shadow-sm" *ngFor="let companyData of companies">
+  <div class="col col-xs-12 col-sm-3 col-md-3 col-lg-2">
+    {{ companyData.CompanyCode }}
+  </div>
+  <div class="col col-xs-12 col-sm-4 col-md-4 col-lg-2">
+    {{ companyData.CompanyName }}
+  </div>
+  <div class="col col-xs-12 col-sm-3 col-md-4 col-lg-3">
+    <div>{{ companyData.CompanyAddress }}</div>
+    <div>{{ companyData.CompanyWebsite }}</div>
+    <div>{{ companyData.CompanyEmail }}</div>
+  </div>
+  <div class="col col-xs-12 col-sm-2 col-md-2 col-lg-1">
+    <span class="badge badge-width p-2"
+      [ngClass]="{'badge-danger': companyData.IsDeleted, 'badge-success': !companyData.IsDeleted}">
+      {{companyData.IsDeleted ? 'Inactive' : 'Active'}}</span>
+  </div>
+  <div class="col">
+    <i class="fa fa-pencil-square-o mx-2 text-info font-weight-bold cursor-pointer"
+      routerLink="/company/update/{{ companyData.CompanyID }}" aria-hidden="true"></i>
+      <i class="fa mx-2 font-weight-bold cursor-pointer"
+      aria-hidden="true" title="{{companyData.IsDeleted ? 'Activate' : 'Deactivate'}}"
+      [ngClass]="{'fa-check-circle-o text-success': companyData.IsDeleted, 'fa-times-circle-o text-danger': !companyData.IsDeleted}"
+      (click)="changeStatus(companyData.CompanyID, companyData.IsDeleted)"></i>
+    <a class="fa fa-envelope-o mx-2 text-muted font-weight-bold curso r-pointer" aria-hidden="true"
+      href="mailto:{{ companyData.CompanyEmail }}"></a>
+    <i class="fa fa-external-link mx-2 text-muted font-weight-bold cursor-pointer" aria-hidden="true"
+      (click)="openWeblink(companyData.CompanyWebsite)"></i>
+  </div>
+</div>
+<div class="row p-1" *ngIf="collectionSize">
+  <div class="col-12 d-flex justify-content-center">
+    <app-pagination [(page)]="page" [collectionSize]="collectionSize" [maxPageSize]="maxPageSize"
+      (nextPageEvent)="onPageChange($event)"></app-pagination>
+  </div>
+</div>
+
+<app-no-data *ngIf="companies && !companies.length" class="d-block m-5 text-center font-weight-bold"
+  [message]="'No company found'"></app-no-data>
+
+<app-confirm-dialog [(visible)]="showDialog"  (closeCallBack)="proceedStatusUpdate($event)"></app-confirm-dialog>

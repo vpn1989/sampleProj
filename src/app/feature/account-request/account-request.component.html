@@ -1,0 +1,12 @@
+<div class="col-12 p-0 mb-2 bg-light text-dark">
+  <ul class="nav nav-tabs border-0 bg-white" id="myTab" role="tablist">
+    <li class="nav-item border-bottom-4 border-color-default">
+      <a class="nav-link border-0 cursor-pointer font-weight-bold" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}"
+        routerLink="/account-request">{{'request_account.request_list_label' | translate}}</a>
+    </li>
+  </ul>
+</div>
+<div class="tab-content py-2 bg-white rounded shadow" id="myTabContent">
+  <router-outlet></router-outlet>
+</div>
